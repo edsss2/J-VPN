@@ -17,14 +17,16 @@ public class ScriptsLinux {
 	public static void runScript(Script script) {
 		ProcessBuilder pb = new ProcessBuilder();
 		
+		//Executa com os comandos devidos se for do tipo jar
 		if(script.getPath().contains(".jar")) {
 			pb.command("java", "-jar", script.getPath());
 		} else {
-			pb.command(script.getPath());
+			pb.command("/home/edson/" + script.getPath());
 		}
 		
 
 		try {
+			//Executa o PRocessBuilder e armazena o processo
 			Process process = pb.start();
 
 			// Ler saída do script
@@ -39,10 +41,13 @@ public class ScriptsLinux {
 			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			
 			
-	        launchMenuHandler(outputReader, inputWriter);
+	        while(process.waitFor() != 0) {
+	        	launchMenuHandler(outputReader, inputWriter);
+	        }
 	        printError(errorReader);
 	        
 			// Esperar o processo terminar
+	        
 			int exitCode = process.waitFor();
 			System.out.println("Exit Code: " + exitCode);
 

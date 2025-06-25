@@ -12,7 +12,7 @@ public class JvpnApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JvpnApplication.class, args);
 		
-		ScriptsLinux.runScript(Script.SCRIPT_TEST);
+		ScriptsLinux.runScript(Script.OPENVPN);
 	}
 
 }

@@ -18,8 +18,8 @@ import java.net.Socket;
 public class PromptHandler extends Thread {
 
 	private final Socket dialogSocket;
-	private BufferedReader readerUser;
-	private PrintWriter writerUser;
+	private BufferedReader readerSCript;
+	private PrintWriter writerScript;
 	
 	public PromptHandler(Socket dialogSocket) {
 		this.dialogSocket = dialogSocket;
@@ -30,14 +30,14 @@ public class PromptHandler extends Thread {
 	@Override
 	public void run() {
 		try {
-			readerUser = new BufferedReader(new InputStreamReader(dialogSocket.getInputStream()));
-			writerUser = new PrintWriter(dialogSocket.getOutputStream(), true);
+			readerSCript = new BufferedReader(new InputStreamReader(dialogSocket.getInputStream()));
+			writerScript = new PrintWriter(dialogSocket.getOutputStream(), true);
 			
-			writerUser.println("Script starting...");
+			writerScript.println("Script starting...");
 			
 			String message;
 			while(true) {
-				message = readerUser.readLine();
+				message = readerSCript.readLine();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -46,6 +46,6 @@ public class PromptHandler extends Thread {
 	}
 	
 	public PrintWriter getWriterUser() {
-		return writerUser;
+		return writerScript;
 	}
 }
