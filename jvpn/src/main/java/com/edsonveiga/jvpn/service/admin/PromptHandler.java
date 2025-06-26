@@ -1,4 +1,4 @@
-package com.edsonveiga.jvpn.service;
+package com.edsonveiga.jvpn.service.admin;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -2,8 +2,7 @@ package com.edsonveiga.jvpn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.edsonveiga.jvpn.service.Connection;
+import com.edsonveiga.jvpn.service.admin.Connection;
 
 @SpringBootApplication
 public class JvpnApplication {
