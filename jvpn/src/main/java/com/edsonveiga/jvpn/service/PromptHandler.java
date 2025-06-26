@@ -4,48 +4,58 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 /**
  * @author Edson Veiga
  * 
- * Essa classe é responsavel por gerenciar as ações do usuário ao interagir com o script,
- * ou seja, aqui irá chegar as repostas do usuário, e serão repassadas as mensagens do
- * script para o usuário.
+ * Essa classe é responsavel por gerenciar as ações do usuário ao
+ * interagir com o script, ou seja, aqui irá chegar as repostas do
+ * usuário, e serão repassadas as mensagens do script para o usuário.
  * 
  * 
  */
 public class PromptHandler extends Thread {
 
-	private final Socket dialogSocket;
-	private BufferedReader readerSCript;
+	private BufferedReader readerScript;
 	private PrintWriter writerScript;
-	
-	public PromptHandler(Socket dialogSocket) {
-		this.dialogSocket = dialogSocket;
+	private Process process;
+
+	public PromptHandler(Process process) {
+		this.process = process;
 		start();
 	}
-	
 
 	@Override
 	public void run() {
-		try {
-			readerSCript = new BufferedReader(new InputStreamReader(dialogSocket.getInputStream()));
-			writerScript = new PrintWriter(dialogSocket.getOutputStream(), true);
-			
-			writerScript.println("Script starting...");
-			
-			String message;
-			while(true) {
-				message = readerSCript.readLine();
+		// Esse é o leitor do que o script vai dizer
+		readerScript = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+		// E esse é onde vão as respostas ao script
+		writerScript = new PrintWriter(process.getOutputStream(), true);
+		
+		String line;
+		
+		while(process.isAlive()) {
+			try {
+				line = readerScript.readLine();
+				if(line == null) {
+					line = "Press Enter to run the script again.";
+				} 
+				
+				System.out.println(line);
+				
+			} catch (IOException e) {
+				System.err.println("The connection may have been closed.");
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+			
 		}
 		
 	}
-	
-	public PrintWriter getWriterUser() {
+
+
+	public PrintWriter getWriter() {
 		return writerScript;
 	}
 }
