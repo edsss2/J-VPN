@@ -12,7 +12,7 @@ public class MyServer {
 	private final static String USER_HOME = System.getProperty("user.home");
 	
 	public static Process runScript(Script script) {
-	    ProcessBuilder pb = new ProcessBuilder(script.getPath());
+	    ProcessBuilder pb = new ProcessBuilder("/home/edson/" + script.getPath());
 	    
 	    try {
 	        return pb.start();
